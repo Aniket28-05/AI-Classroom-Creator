@@ -2,7 +2,7 @@ import React from 'react';
 import { cn } from '../../utils/cn';
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
+  variant?: 'primary' | 'accent' | 'secondary' | 'outline' | 'ghost';
   size?: 'sm' | 'md' | 'lg';
   isLoading?: boolean;
   leftIcon?: React.ReactNode;
@@ -21,23 +21,25 @@ export const Button: React.FC<ButtonProps> = ({
   ...props
 }) => {
   const baseStyles =
-    'inline-flex items-center justify-center font-medium rounded-lg transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-[#212226] focus:ring-offset-1 disabled:opacity-50 disabled:cursor-not-allowed select-none active:scale-[0.99]';
+    'inline-flex items-center justify-center font-medium transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:ring-offset-2 focus-visible:ring-offset-canvas disabled:opacity-40 disabled:cursor-not-allowed select-none active:scale-[0.98]';
 
   const variants = {
     primary:
-      'bg-[#141517] text-[#FFFFFF] hover:bg-[#212226] shadow-sm active:bg-[#0C0D0E]',
+      'bg-warm-white text-canvas hover:bg-white active:bg-warm-ivory shadow-subtle font-semibold',
+    accent:
+      'bg-accent text-canvas hover:bg-accent-hover active:bg-accent-muted shadow-glow font-semibold',
     secondary:
-      'bg-[#EFEFEF] text-[#141517] hover:bg-[#DFE0E2] active:bg-[#CACBCE]',
+      'bg-white/[0.07] text-warm-white hover:bg-white/[0.12] active:bg-white/[0.05] border border-white/[0.08]',
     outline:
-      'border border-[#DFE0E2] text-[#212226] bg-white hover:bg-[#F7F7F8] active:bg-[#EFEFEF]',
+      'border border-white/[0.12] text-warm-ivory bg-transparent hover:bg-white/[0.05] hover:border-white/[0.22] active:bg-white/[0.08]',
     ghost:
-      'text-[#4F5259] hover:text-[#141517] hover:bg-[#F7F7F8] active:bg-[#EFEFEF]',
+      'text-warm-muted hover:text-warm-white hover:bg-white/[0.06] active:bg-white/[0.1]',
   };
 
   const sizes = {
-    sm: 'text-xs px-2.5 py-1.5 gap-1.5',
-    md: 'text-sm px-4 py-2 gap-2',
-    lg: 'text-base px-5 py-2.5 gap-2.5',
+    sm: 'text-xs px-2.5 py-1.5 gap-1.5 rounded-lg',
+    md: 'text-xs sm:text-sm px-4 py-2 gap-2 rounded-lg',
+    lg: 'text-sm sm:text-base px-5 py-2.5 gap-2.5 rounded-xl',
   };
 
   return (
@@ -48,7 +50,7 @@ export const Button: React.FC<ButtonProps> = ({
     >
       {isLoading ? (
         <svg
-          className="animate-spin h-4 w-4 text-current"
+          className="animate-spin h-3.5 w-3.5 sm:h-4 sm:w-4 text-current flex-shrink-0"
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"

@@ -18,15 +18,15 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
         {label && (
           <label
             htmlFor={inputId}
-            className="block text-xs font-semibold tracking-wide uppercase text-[#35373C]"
+            className="block text-[11px] font-semibold tracking-wider uppercase text-warm-muted"
           >
             {label}
-            {props.required && <span className="text-red-500 ml-0.5">*</span>}
+            {props.required && <span className="text-accent ml-1">*</span>}
           </label>
         )}
         <div className="relative flex items-center">
           {leftIcon && (
-            <div className="absolute left-3 flex items-center pointer-events-none text-[#6E727A]">
+            <div className="absolute left-3.5 flex items-center pointer-events-none text-warm-dim">
               {leftIcon}
             </div>
           )}
@@ -34,27 +34,27 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
             ref={ref}
             id={inputId}
             className={cn(
-              'w-full rounded-lg border bg-white px-3.5 py-2 text-sm text-[#141517] placeholder:text-[#9DA0A5]',
+              'w-full rounded-lg glass-input px-3.5 py-2.5 text-sm text-warm-white placeholder:text-warm-dim/80',
               'transition-all duration-150',
-              'focus:outline-none focus:ring-1 focus:ring-[#212226] focus:border-[#212226]',
-              'disabled:bg-[#F7F7F8] disabled:text-[#9DA0A5] disabled:cursor-not-allowed',
-              error ? 'border-red-400 focus:ring-red-400' : 'border-[#DFE0E2] hover:border-[#CACBCE]',
-              leftIcon ? 'pl-9' : '',
-              rightIcon ? 'pr-9' : '',
+              'focus:outline-none focus:border-accent/60 focus:ring-1 focus:ring-accent/40',
+              'disabled:opacity-50 disabled:cursor-not-allowed',
+              error ? 'border-rose-500/60 focus:border-rose-500 focus:ring-rose-500/30' : '',
+              leftIcon ? 'pl-10' : '',
+              rightIcon ? 'pr-10' : '',
               className
             )}
             {...props}
           />
           {rightIcon && (
-            <div className="absolute right-3 flex items-center pointer-events-none text-[#6E727A]">
+            <div className="absolute right-3.5 flex items-center pointer-events-none text-warm-dim">
               {rightIcon}
             </div>
           )}
         </div>
         {error ? (
-          <p className="text-xs text-red-600 font-medium">{error}</p>
+          <p className="text-xs text-rose-400 font-medium">{error}</p>
         ) : helperText ? (
-          <p className="text-xs text-[#6E727A]">{helperText}</p>
+          <p className="text-xs text-warm-dim">{helperText}</p>
         ) : null}
       </div>
     );

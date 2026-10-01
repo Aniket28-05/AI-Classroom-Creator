@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { HeroSection } from '../components/lesson/HeroSection';
 import { LessonForm } from '../components/lesson/LessonForm';
+import { FrameworkOverview } from '../components/lesson/FrameworkOverview';
 import { LessonViewer } from '../components/lesson/LessonViewer';
 import { LessonLoadingState } from '../components/lesson/LessonLoadingState';
 import { Alert } from '../components/common/Alert';
@@ -8,48 +10,44 @@ import {
   LessonInputParams,
   LessonPackage,
   SectionKey,
-  HealthStatus,
 } from '../types/lesson';
-import { AlertTriangle, ShieldCheck } from 'lucide-react';
 
-export const HomePage: React.FC = () => {
+interface HomePageProps {
+  onStateChange?: (hasLesson: boolean) => void;
+  onNewLessonRegister?: (callback: () => void) => void;
+}
+
+export const HomePage: React.FC<HomePageProps> = ({
+  onStateChange,
+  onNewLessonRegister,
+}) => {
   const [lessonPackage, setLessonPackage] = useState<LessonPackage | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [regeneratingKey, setRegeneratingKey] = useState<SectionKey | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [health, setHealth] = useState<HealthStatus | null>(null);
+  const [presetData, setPresetData] = useState<Partial<LessonInputParams> | null>(null);
 
-  // Check backend health on initial load
-  useEffect(() => {
-    let isMounted = true;
-    api
-      .checkHealth()
-      .then((data) => {
-        if (isMounted) setHealth(data);
-      })
-      .catch(() => {
-        if (isMounted) {
-          setHealth({ status: 'unreachable', version: '0.0.0', gemini_configured: false });
-        }
-      });
-    return () => {
-      isMounted = false;
-    };
-  }, []);
-
-  // Form Submit Handler -> calls real API
+  // Form Submit Handler -> calls real backend API
   const handleGenerate = async (params: LessonInputParams) => {
     setIsLoading(true);
     setErrorMessage(null);
 
+    // Scroll smoothly to loading area
+    window.scrollTo({ top: 180, behavior: 'smooth' });
+
     try {
       const response = await api.generateLesson(params);
       setLessonPackage(response);
+      onStateChange?.(true);
+      // Smooth scroll to top of generated lesson
+      setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }, 100);
     } catch (err: unknown) {
       if (err instanceof Error) {
         setErrorMessage(err.message);
       } else {
-        setErrorMessage('Failed to connect to the backend server. Please verify the API is running.');
+        setErrorMessage('Unable to communicate with the curriculum engine. Please ensure the backend server is running.');
       }
     } finally {
       setIsLoading(false);
@@ -103,7 +101,7 @@ export const HomePage: React.FC = () => {
       });
     } catch (err: unknown) {
       if (err instanceof Error) {
-        setErrorMessage(`Section regeneration error: ${err.message}`);
+        setErrorMessage(`Section regeneration failed: ${err.message}`);
       } else {
         setErrorMessage('Failed to regenerate section from backend API.');
       }
@@ -115,52 +113,45 @@ export const HomePage: React.FC = () => {
   const handleNewLesson = () => {
     setLessonPackage(null);
     setErrorMessage(null);
+    onStateChange?.(false);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // Expose reset callback to parent if needed
+  React.useEffect(() => {
+    onNewLessonRegister?.(handleNewLesson);
+  }, [onNewLessonRegister]);
+
+  const handleStarterSelect = (topicData: Partial<LessonInputParams>) => {
+    setPresetData(topicData);
+    const studioEl = document.getElementById('studio-section');
+    if (studioEl) {
+      studioEl.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const handleStartCreating = () => {
+    const studioEl = document.getElementById('studio-section');
+    if (studioEl) {
+      studioEl.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   return (
-    <div className="space-y-8">
-      {/* Backend Status Notification Strip */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-4 py-2.5 rounded-lg border border-[#EFEFEF] bg-white text-xs">
-        <div className="flex items-center gap-2">
-          {health?.status === 'healthy' ? (
-            <span className="flex items-center gap-1.5 text-emerald-700 font-medium">
-              <span className="h-2 w-2 rounded-full bg-emerald-500 inline-block"></span>
-              FastAPI Backend Connected (v{health.version})
-            </span>
-          ) : (
-            <span className="flex items-center gap-1.5 text-amber-700 font-medium">
-              <AlertTriangle className="h-3.5 w-3.5 text-amber-600" />
-              Backend API Disconnected
-            </span>
-          )}
-          <span className="text-[#CACBCE]">•</span>
-          <span className="text-[#6E727A]">
-            AI Service Status:{' '}
-            {health?.gemini_configured ? (
-              <strong className="text-emerald-700">Configured</strong>
-            ) : (
-              <span className="text-[#6E727A]">API Key Awaiting in backend/.env</span>
-            )}
-          </span>
-        </div>
-        <div className="flex items-center gap-2 text-[#6E727A]">
-          <ShieldCheck className="h-3.5 w-3.5" />
-          <span>Agenticthon 2026 • Problem ID: PS-004</span>
-        </div>
-      </div>
-
-      {/* Global Error Banner */}
+    <div className="space-y-12">
+      {/* Global Error Banner if API error occurs */}
       {errorMessage && (
         <Alert
           variant="error"
-          title="API Response Notice"
+          title="Engine Notice"
           onDismiss={() => setErrorMessage(null)}
+          className="sticky top-20 z-40 max-w-3xl mx-auto shadow-elevated"
         >
           {errorMessage}
         </Alert>
       )}
 
-      {/* Main Flow: Form vs Loading vs LessonViewer */}
+      {/* Main Flow: Loading Workspace vs Generated Lesson vs Studio Creation Flow */}
       {isLoading ? (
         <LessonLoadingState />
       ) : lessonPackage ? (
@@ -172,20 +163,22 @@ export const HomePage: React.FC = () => {
           regeneratingKey={regeneratingKey}
         />
       ) : (
-        <div className="space-y-8">
-          {/* Header context */}
-          <div className="space-y-2 max-w-3xl">
-            <h1 className="text-3xl font-semibold tracking-tight text-[#141517]">
-              AI Classroom Creator
-            </h1>
-            <p className="text-sm text-[#4F5259] leading-relaxed">
-              Generate structured, grade-adapted classroom learning packages strictly aligned with
-              curriculum standards and your intended learning outcome. Fill in the parameters below
-              to generate the complete 8-section package.
-            </p>
-          </div>
+        <div className="space-y-16">
+          {/* Section 1: Landing / Hero */}
+          <HeroSection
+            onSelectTopic={handleStarterSelect}
+            onStartCreating={handleStartCreating}
+          />
 
-          <LessonForm onSubmit={handleGenerate} isLoading={isLoading} />
+          {/* Section 2: Create Lesson (Studio Creation Experience) */}
+          <LessonForm
+            onSubmit={handleGenerate}
+            isLoading={isLoading}
+            presetData={presetData}
+          />
+
+          {/* Section 3: 8-Section Pedagogical Framework Overview */}
+          <FrameworkOverview />
         </div>
       )}
     </div>

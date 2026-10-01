@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { LessonPackage, SectionKey } from '../../types/lesson';
 import { SectionCard } from './SectionCard';
+import { AskAssistantSection } from './AskAssistantSection';
 import { Card } from '../common/Card';
 import { Button } from '../common/Button';
 import {
@@ -194,6 +195,11 @@ export const LessonViewer: React.FC<LessonViewerProps> = ({
           </div>
         </div>
       </Card>
+
+      {/* Interactive AI Teacher Assistant */}
+      <div className="print:hidden">
+        <AskAssistantSection lessonContext={metadata} />
+      </div>
 
       {/* Main Workspace: Table of Contents + Section Cards */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">

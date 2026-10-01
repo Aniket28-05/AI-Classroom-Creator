@@ -14,7 +14,7 @@ class Settings(BaseSettings):
         "http://localhost:3000",
     ]
     GEMINI_API_KEY: str = ""
-    GEMINI_MODEL: str = "gemini-1.5-flash"
+    GEMINI_MODEL: str = "gemini-3.5-flash-lite"
 
     model_config = SettingsConfigDict(
         env_file=".env",

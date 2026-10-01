@@ -49,6 +49,16 @@ class ApiService {
       body: JSON.stringify(payload),
     });
   }
+
+  async askQuestion(question: string, lessonContext?: LessonInputParams): Promise<{ answer: string }> {
+    return this.request<{ answer: string }>('/api/lessons/ask', {
+      method: 'POST',
+      body: JSON.stringify({
+        question,
+        lesson_context: lessonContext,
+      }),
+    });
+  }
 }
 
 export const api = new ApiService();

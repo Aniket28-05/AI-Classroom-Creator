@@ -70,3 +70,12 @@ class HealthResponse(BaseModel):
     status: str
     version: str
     gemini_configured: bool
+
+
+class LessonAskRequest(BaseModel):
+    question: str = Field(..., min_length=2, max_length=1500, description="Question asked by teacher")
+    lesson_context: Optional[Dict] = Field(None, description="Context of the current lesson")
+
+
+class LessonAskResponse(BaseModel):
+    answer: str

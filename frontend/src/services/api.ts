@@ -1,4 +1,10 @@
-import { HealthStatus, LessonInputParams, LessonPackage } from '../types/lesson';
+import {
+  HealthStatus,
+  LessonInputParams,
+  LessonPackage,
+  SectionRegeneratePayload,
+  SectionResponse,
+} from '../types/lesson';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
 
@@ -14,7 +20,8 @@ class ApiService {
       const response = await fetch(url, { ...options, headers });
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.detail || `Request failed with status ${response.status}`);
+        const message = errorData.detail || `Request failed with status ${response.status}`;
+        throw new Error(message);
       }
       return await response.json();
     } catch (err: unknown) {
@@ -33,6 +40,13 @@ class ApiService {
     return this.request<LessonPackage>('/api/lessons/generate', {
       method: 'POST',
       body: JSON.stringify(params),
+    });
+  }
+
+  async regenerateSection(payload: SectionRegeneratePayload): Promise<SectionResponse> {
+    return this.request<SectionResponse>('/api/lessons/regenerate-section', {
+      method: 'POST',
+      body: JSON.stringify(payload),
     });
   }
 }

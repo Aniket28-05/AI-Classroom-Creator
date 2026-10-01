@@ -28,11 +28,27 @@ export interface LessonSections {
   conclusion: SectionItem;
 }
 
+export type SectionKey = keyof LessonSections;
+
 export interface LessonPackage {
   id: string;
   metadata: LessonInputParams;
   sections: LessonSections;
   created_at?: string;
+}
+
+export interface SectionRegeneratePayload {
+  section_key: string;
+  lesson_context: LessonInputParams;
+  current_content: string;
+  feedback_instruction?: string;
+}
+
+export interface SectionResponse {
+  section_key: string;
+  title: string;
+  content: string;
+  estimated_minutes: number;
 }
 
 export interface HealthStatus {

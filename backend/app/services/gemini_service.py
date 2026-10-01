@@ -79,14 +79,14 @@ Create a comprehensive, classroom-ready 8-section lesson package based on these 
 INSTRUCTIONAL REQUIREMENTS:
 1. Provide actual, rich, detailed educational content (not outlines, placeholders, or summaries).
 2. The 8 sections must be:
-   - introduction: Engaging real-world hook, context setting, and prior knowledge activation.
-   - learning_objectives: Explicit, observable Bloom's taxonomy outcomes students will master.
-   - concept_explanation: Thorough conceptual breakdown, models, core definitions, and mechanisms.
-   - examples: Step-by-step worked examples with complete problem solving and guided scaffolding.
-   - classroom_activity: Interactive hands-on experiment, group protocol, or simulation with materials and steps.
-   - discussion_questions: 3-5 thought-provoking Socratic inquiry questions with teacher discussion notes.
-   - assessment_questions: Formative and evaluative check questions WITH comprehensive answers and scoring criteria.
-   - conclusion: Key conceptual takeaways, summary synthesis, and connection to future topics.
+   - introduction: Title must be 'Introduction & Hook'. Engaging real-world hook, context setting, and prior knowledge activation.
+   - learning_objectives: Title must be 'Learning Objectives'. Explicit, observable Bloom's taxonomy outcomes students will master.
+   - concept_explanation: Title must be 'Concept Explanation'. Thorough conceptual breakdown, models, core definitions, and mechanisms.
+   - examples: Title must be 'Worked Examples'. Step-by-step worked examples with complete problem solving and guided scaffolding.
+   - classroom_activity: Title must be 'Classroom Activity'. Interactive hands-on experiment, group protocol, or simulation with materials and steps.
+   - discussion_questions: Title must be 'Discussion Questions'. 3-5 thought-provoking Socratic inquiry questions with teacher discussion notes.
+   - assessment_questions: Title must be 'Assessment & Checks'. Formative and evaluative check questions WITH comprehensive answers and scoring criteria.
+   - conclusion: Title must be 'Conclusion & Takeaway'. Key conceptual takeaways, summary synthesis, and connection to future topics.
 3. The sum of estimated_minutes across all 8 sections should approximately equal {request.duration_minutes} minutes.
 """
 
@@ -267,11 +267,23 @@ Generate an improved, high-quality replacement for this section that fully respe
         raw_text = data["candidates"][0]["content"]["parts"][0]["text"]
         parsed = json.loads(raw_text)
 
+        default_titles = {
+            "introduction": "Introduction & Hook",
+            "learning_objectives": "Learning Objectives",
+            "concept_explanation": "Concept Explanation",
+            "examples": "Worked Examples",
+            "classroom_activity": "Classroom Activity",
+            "discussion_questions": "Discussion Questions",
+            "assessment_questions": "Assessment & Checks",
+            "conclusion": "Conclusion & Takeaway",
+        }
+        title = parsed.get("title") or default_titles.get(request.section_key, request.section_key.replace("_", " ").title())
+
         return SectionResponse(
             section_key=request.section_key,
-            title=parsed["title"],
+            title=title,
             content=parsed["content"],
-            estimated_minutes=parsed["estimated_minutes"],
+            estimated_minutes=parsed.get("estimated_minutes", 5),
         )
 
     async def ask_question(self, question: str, context: Optional[Dict] = None) -> str:

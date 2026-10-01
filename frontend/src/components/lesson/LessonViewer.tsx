@@ -31,8 +31,8 @@ const SECTION_KEYS: { key: SectionKey; number: number; label: string }[] = [
   { key: 'examples', number: 4, label: 'Worked Examples' },
   { key: 'classroom_activity', number: 5, label: 'Classroom Activity' },
   { key: 'discussion_questions', number: 6, label: 'Discussion Questions' },
-  { key: 'assessment_questions', number: 7, label: 'Assessment Questions' },
-  { key: 'conclusion', number: 8, label: 'Conclusion & Summary' },
+  { key: 'assessment_questions', number: 7, label: 'Assessment & Checks' },
+  { key: 'conclusion', number: 8, label: 'Conclusion & Takeaway' },
 ];
 
 export const LessonViewer: React.FC<LessonViewerProps> = ({

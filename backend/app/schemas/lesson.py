@@ -22,7 +22,7 @@ class LessonGenerateRequest(BaseModel):
 class SectionItem(BaseModel):
     title: str = Field(..., description="Section title")
     content: str = Field(..., description="Markdown or text content of the section")
-    estimated_minutes: int = Field(5, ge=1, le=120, description="Recommended time budget in minutes")
+    estimated_minutes: int = Field(5, ge=0, le=180, description="Recommended time budget in minutes")
 
 
 class LessonSections(BaseModel):

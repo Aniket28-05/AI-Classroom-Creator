@@ -44,7 +44,7 @@ class ApiService {
   }
 
   async regenerateSection(payload: SectionRegeneratePayload): Promise<SectionResponse> {
-    return this.request<SectionResponse>('/api/lessons/regenerate-section', {
+    return this.request<SectionResponse>('/api/lessons/regenerate', {
       method: 'POST',
       body: JSON.stringify(payload),
     });

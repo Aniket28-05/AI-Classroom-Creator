@@ -48,6 +48,7 @@ async def generate_lesson(request: LessonGenerateRequest):
         )
 
 
+@router.post("/lessons/regenerate", response_model=SectionResponse, tags=["Lessons"])
 @router.post("/lessons/regenerate-section", response_model=SectionResponse, tags=["Lessons"])
 async def regenerate_section(request: SectionRegenerateRequest):
     """Endpoint for regenerating an individual lesson section with teacher feedback."""

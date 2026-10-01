@@ -50,7 +50,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNewLesson, hasActiveLesson }) 
             className="px-3 py-1.5 rounded-lg hover:text-warm-white hover:bg-white/[0.05] transition-colors flex items-center gap-1.5"
           >
             <Compass className="h-3.5 w-3.5" />
-            Curriculum Studio
+            Lesson Creator
           </button>
           <button
             onClick={() => scrollToSection('framework-section')}
@@ -76,7 +76,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNewLesson, hasActiveLesson }) 
               onClick={() => scrollToSection('studio-section')}
               className="text-xs font-semibold px-3.5 py-1.5 rounded-lg bg-warm-white text-canvas hover:bg-white transition-all shadow-subtle active:scale-[0.98] hidden sm:inline-flex items-center gap-1.5"
             >
-              Create Package
+              Create Lesson
             </button>
           )}
 

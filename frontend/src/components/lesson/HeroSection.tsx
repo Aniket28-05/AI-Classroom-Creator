@@ -41,9 +41,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSelectTopic, onStart
       {/* Top subtle category pill */}
       <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-surface-elevated/90 border border-white/[0.08] shadow-card text-xs text-warm-muted animate-fade-in">
         <span className="flex h-1.5 w-1.5 rounded-full bg-accent animate-pulse"></span>
-        <span className="font-medium text-warm-ivory">Pedagogical Architecture Engine</span>
+        <span className="font-medium text-warm-ivory">AI Lesson Creator</span>
         <span className="text-white/20">•</span>
-        <span className="text-warm-dim">Grade-Calibrated Blueprint Generator</span>
+        <span className="text-warm-dim">Grade-Calibrated Lesson Generator</span>
       </div>
 
       {/* Main Headline */}
@@ -68,7 +68,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSelectTopic, onStart
           rightIcon={<ArrowRight className="h-4 w-4" />}
           className="w-full sm:w-auto px-7"
         >
-          Open Curriculum Studio
+          Open Lesson Creator
         </Button>
         <Button
           variant="outline"

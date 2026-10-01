@@ -99,18 +99,18 @@ export const LessonForm: React.FC<LessonFormProps> = ({
         <div className="space-y-1.5">
           <div className="inline-flex items-center gap-2 text-xs font-mono text-accent">
             <Sliders className="h-3.5 w-3.5" />
-            <span>CURRICULUM ARCHITECTURE STUDIO</span>
+            <span>LESSON CREATOR</span>
           </div>
           <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-warm-white">
-            Calibrate Lesson Parameters
+            Create Your Lesson
           </h2>
           <p className="text-xs sm:text-sm text-warm-muted max-w-2xl leading-relaxed">
-            Configure your curriculum scope, time allocation, and pedagogical style. Every section will be structured around these parameters.
+            Set your lesson details, class level, duration, and goals. We'll generate a complete, ready-to-teach 8-section lesson plan.
           </p>
         </div>
         <div className="flex items-center gap-2">
           <span className="text-[11px] font-mono text-warm-muted bg-white/[0.04] px-3 py-1 rounded-full border border-white/[0.08]">
-            7 Calibrated Parameters
+            7 Quick Inputs
           </span>
         </div>
       </div>
@@ -119,7 +119,7 @@ export const LessonForm: React.FC<LessonFormProps> = ({
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
           {/* Main Left Workspace Column */}
           <div className="lg:col-span-8 space-y-5">
-            {/* Step 1: Subject & Topic */}
+            {/* Step 1: Lesson Details */}
             <Card variant="default" padding="md" className="space-y-4">
               <div className="flex items-center justify-between border-b border-white/[0.06] pb-3">
                 <div className="flex items-center gap-2.5">
@@ -127,7 +127,7 @@ export const LessonForm: React.FC<LessonFormProps> = ({
                     STEP 1
                   </span>
                   <h3 className="text-xs font-semibold uppercase tracking-wider text-warm-ivory">
-                    Academic Scope & Topic
+                    Lesson Details
                   </h3>
                 </div>
                 <span className="text-[11px] text-warm-dim">Required</span>
@@ -135,7 +135,7 @@ export const LessonForm: React.FC<LessonFormProps> = ({
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <Input
-                  label="Academic Subject"
+                  label="Subject"
                   required
                   placeholder="e.g. Physics, Cellular Biology, Economics"
                   value={formData.subject}
@@ -149,7 +149,7 @@ export const LessonForm: React.FC<LessonFormProps> = ({
                 />
 
                 <Input
-                  label="Lesson Topic"
+                  label="Topic"
                   required
                   placeholder="e.g. Photosynthesis, Newton's Third Law"
                   value={formData.topic}
@@ -164,7 +164,7 @@ export const LessonForm: React.FC<LessonFormProps> = ({
               </div>
             </Card>
 
-            {/* Step 2: Classroom & Pedagogical Calibration */}
+            {/* Step 2: Class & Duration */}
             <Card variant="default" padding="md" className="space-y-5">
               <div className="flex items-center justify-between border-b border-white/[0.06] pb-3">
                 <div className="flex items-center gap-2.5">
@@ -172,16 +172,16 @@ export const LessonForm: React.FC<LessonFormProps> = ({
                     STEP 2
                   </span>
                   <h3 className="text-xs font-semibold uppercase tracking-wider text-warm-ivory">
-                    Pedagogical Calibration & Time Allocation
+                    Class & Duration
                   </h3>
                 </div>
-                <span className="text-[11px] text-warm-dim">Adaptive Framework</span>
+                <span className="text-[11px] text-warm-dim">Customizable</span>
               </div>
 
               {/* Class Level & Duration Chips */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <Select
-                  label="Target Class Level"
+                  label="Class Level"
                   required
                   value={formData.class_level}
                   onChange={(e) => setFormData({ ...formData, class_level: e.target.value })}
@@ -201,7 +201,7 @@ export const LessonForm: React.FC<LessonFormProps> = ({
 
                 <div className="space-y-1.5">
                   <label className="block text-[11px] font-semibold tracking-wider uppercase text-warm-muted">
-                    Time Budget
+                    Duration
                     <span className="text-accent ml-1">*</span>
                   </label>
                   <div className="grid grid-cols-4 gap-2">
@@ -228,7 +228,7 @@ export const LessonForm: React.FC<LessonFormProps> = ({
               {/* Difficulty Level Chips */}
               <div className="space-y-1.5">
                 <label className="block text-[11px] font-semibold tracking-wider uppercase text-warm-muted">
-                  Cognitive Tier & Difficulty
+                  Difficulty Level
                   <span className="text-accent ml-1">*</span>
                 </label>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
@@ -264,7 +264,7 @@ export const LessonForm: React.FC<LessonFormProps> = ({
               {/* Teaching Style */}
               <div className="pt-1">
                 <Select
-                  label="Instructional Delivery Style"
+                  label="Teaching Style"
                   required
                   value={formData.teaching_style}
                   onChange={(e) => setFormData({ ...formData, teaching_style: e.target.value })}
@@ -287,23 +287,23 @@ export const LessonForm: React.FC<LessonFormProps> = ({
                     STEP 3
                   </span>
                   <h3 className="text-xs font-semibold uppercase tracking-wider text-warm-ivory">
-                    Intended Learning Objective
+                    Learning Objective
                   </h3>
                 </div>
-                <span className="text-[11px] text-warm-dim">Bloom’s Taxonomy</span>
+                <span className="text-[11px] text-warm-dim">Goal</span>
               </div>
 
               <Textarea
                 required
                 rows={3}
-                placeholder="State the primary conceptual or empirical outcome students should be able to explain, construct, or demonstrate by the conclusion of this lesson..."
+                placeholder="What should students understand, explain, or be able to do by the end of this lesson?"
                 value={formData.learning_objective}
                 onChange={(e) => {
                   setFormData({ ...formData, learning_objective: e.target.value });
                   if (errors.learning_objective) setErrors({ ...errors, learning_objective: undefined });
                 }}
                 error={errors.learning_objective}
-                helperText={`${formData.learning_objective.length}/500 characters. Activities, examples, and assessment questions will be strictly aligned to this outcome.`}
+                helperText={`${formData.learning_objective.length}/500 characters. Activities, examples, and assessment questions will be directly aligned to this objective.`}
                 disabled={isLoading}
               />
             </Card>
@@ -315,20 +315,20 @@ export const LessonForm: React.FC<LessonFormProps> = ({
               <div className="space-y-1">
                 <div className="flex items-center gap-2 text-xs font-mono text-accent">
                   <Sparkles className="h-3.5 w-3.5" />
-                  <span>PACKAGE BLUEPRINT</span>
+                  <span>LESSON PREVIEW</span>
                 </div>
                 <h3 className="text-sm font-semibold text-warm-white">
-                  Curriculum Summary
+                  Lesson Summary
                 </h3>
                 <p className="text-[11px] text-warm-muted">
-                  Live preview of parameters configured for synthesis.
+                  Live preview of your lesson settings.
                 </p>
               </div>
 
               {/* Blueprint details */}
               <div className="space-y-2.5 text-xs border-y border-white/[0.08] py-4">
                 <div className="flex items-center justify-between">
-                  <span className="text-warm-dim">Subject Scope:</span>
+                  <span className="text-warm-dim">Subject:</span>
                   <span className="font-medium text-warm-ivory">
                     {formData.subject || 'Not specified'}
                   </span>
@@ -340,25 +340,25 @@ export const LessonForm: React.FC<LessonFormProps> = ({
                   </span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-warm-dim">Grade Level:</span>
+                  <span className="text-warm-dim">Class Level:</span>
                   <span className="font-medium text-warm-ivory">
                     {formData.class_level}
                   </span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-warm-dim">Allocated Duration:</span>
+                  <span className="text-warm-dim">Duration:</span>
                   <span className="font-medium text-accent">
                     {formData.duration_minutes} Minutes
                   </span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-warm-dim">Pedagogy Style:</span>
+                  <span className="text-warm-dim">Teaching Style:</span>
                   <span className="font-medium text-warm-ivory">
                     {formData.teaching_style.split(' ')[0]}
                   </span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-warm-dim">Difficulty:</span>
+                  <span className="text-warm-dim">Difficulty Level:</span>
                   <span className="font-medium text-warm-ivory">
                     {formData.difficulty_level}
                   </span>
@@ -368,7 +368,7 @@ export const LessonForm: React.FC<LessonFormProps> = ({
               {/* Sections list summary */}
               <div className="space-y-2">
                 <div className="flex items-center justify-between text-[11px] text-warm-dim uppercase font-mono">
-                  <span>8 Synthesized Outputs</span>
+                  <span>8 Lesson Sections</span>
                   <span>100% Budgeted</span>
                 </div>
                 <div className="grid grid-cols-2 gap-1.5 text-[11px] text-warm-muted">
@@ -394,7 +394,7 @@ export const LessonForm: React.FC<LessonFormProps> = ({
                   rightIcon={<ArrowRight className="h-4 w-4" />}
                   disabled={isLoading}
                 >
-                  {isLoading ? 'Synthesizing Package...' : 'Generate Master Package'}
+                  {isLoading ? 'Creating Lesson...' : 'Generate Lesson Plan'}
                 </Button>
               </div>
             </Card>
